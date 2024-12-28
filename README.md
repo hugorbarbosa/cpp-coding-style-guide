@@ -20,7 +20,14 @@ This project mentions some C++ coding styles that are often used on C++ projects
     - [Macros](#macros)
     - [Files and directories](#files-and-directories)
 - [Comments](#comments)
+    - [Comments usage](#comments-usage)
+    - [Comment style](#comment-style)
+    - [TODO comments](#todo-comments)
+    - [Documentation](#documentation)
 - [Formatting](#formatting)
+    - [Line length](#line-length)
+    - [Spaces vs tabs](#spaces-vs-tabs)
+    - [K&R-derived layout](#kr-derived-layout)
 - [Header files](#header-files)
     - [Include guards](#include-guards)
     - [Using namespaces](#using-namespaces)
@@ -283,19 +290,210 @@ For files relative to tests, use a prefix correspondent to the testing level:
 - Integration test file: `it_something.cpp`
 - System test file: `st_something.cpp`
 
-## Comments
+## Comments and documentation
 
-// TODO: Complete.
+### Comments usage
 
-- Comments
-- Documentation
+Comments are important to state intent more clearly to the reader. It should contain details to help understand a particular part of code, but don't comment what can be easily extracted from the code. While comments are very important, the best code is self-documenting.
+
+### Comment style
+
+Comment using either the `//` or `/* */` syntax, as long as consistency is maintained.
+
+```c++
+// This is a comment.
+/* This is another comment. */
+/*
+ * This is a multi-line
+ * comment.
+ */
+```
+
+### TODO comments
+
+A TODO comment should be used when something needs to be done or changed in the future. Examples of this are: some feature or functionality should be changed or is missing; and a particular code is temporary, being a short-term solution.
+
+Its format should contain the "TODO" text, followed issue/bug ID, name or other identifier that contains the problem referenced by the TODO:
+
+```c++
+void a_function() {
+    // TODO Issue-42: Avoid copies performed here.
+    ...
+}
+```
+
+### Documentation
+
+It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation automatically. For that purpose, document the source code using the format utilized by Doxygen (see [Tools](#tools) section).
+
+Examples:
+- For files, start with the documentation as shown in the following example:
+    ```c++
+    /**
+     * @file
+     * @copyright Copyright (C) 2024 <Author/Company> - All Rights Reserved.
+     */
+    ...
+    ```
+- For classes/structs and member/free functions:
+    ```c++
+    /**
+     * @brief Adds the provided two integers.
+     *
+     * @param first_integer First integer to add.
+     * @param second_integer Second integer to add.
+     *
+     * @return Sum of the two integers.
+     */
+    int add_two_numbers(const int first_integer, const int second_integer);
+
+    /**
+     * @brief My class.
+     */
+    class MyClass {
+    public:
+        /**
+         * @brief Sets the value of data.
+         * 
+         * This function verifies if the data can be updated or not.
+         * 
+         * @param new_value New data value.
+         *
+         * @return True if the data value was successfully updated, false otherwise.
+         */
+        bool set_data(const int new_value);
+    private:
+        /// Data member example.
+        int data_member;
+    };
+
+    /**
+     * @brief My struct.
+     */
+    struct MyStruct {
+        /// Data member example.
+        int data_member;
+    };
+    ```
+- For templates:
+    ```c++
+    /**
+     * @brief Adds the provided two parameters.
+     *
+     * @tparam T Data type.
+     * @param first First parameter to add.
+     * @param second Second parameter to add.
+     *
+     * @return Sum of the two parameters.
+     */
+    template<typename T>
+    T add_two_numbers(const T first, const T second);
+
+    /**
+     * @brief My class.
+     *
+     * @tparam T Data member type.
+     */
+    template<typename T>
+    class MyClass {
+    public:
+        ...
+    private:
+        /// Data member example.
+        T data_member;
+    };
+    ```
+- For enums:
+    ```c++
+    /**
+     * @brief Possible operation results.
+     */
+    enum class OperationResult {
+        /// Operation has succeeded.
+        success,
+        /// Operation has failed due to out-of-memory.
+        out_of_memory,
+        /// Operation has failed due to unknown reason.
+        unknown
+    };
+    ```
 
 ## Formatting
 
-// TODO: Complete.
+Ensuring that the code always has the desired format is a very complicated and error-prone task. Thus, it is highly recommend to use a tool that automatically checks and formats automatically the code. Clang-format is a tool that can be used for this purpose (see [Tools](#tools) section).
 
-- Indentation
-- if, switch-case, for
+### Line length
+
+Each line of code should be at most 100 characters long. A line may exceed this maximum value in some cases, for example, when a literal URL is longer than that value.
+
+### Spaces vs tabs
+
+Use only spaces, and use 4 spaces for indentation.
+
+Tabs should not be used in code, to ensure that the alignment and number of spaces are consistent independently of the code editor used.
+
+Set the code editor to emit spaces when pressing the tab key.
+
+### K&R-derived layout
+
+The Kernighan & Ritchie (K&R) style is commonly used for C and C++ code, because it preserves vertical space well, and helps to easily distinguish different language constructs, such as functions and classes.
+
+When adding conventions for constructs not found in C, that becomes what is often called as "Stroustrup" style, being recommended by the [C++ Core Guidelines][ref-cpp-core-guidelines].
+
+Example:
+
+```c++
+namespace some_namespace { // Brace in the same line for namespaces.
+
+// The declarations inside of the namespace should not be indented.
+
+class B : public A { // Brace in the same line for classes/structs/enums.
+public: // No indentation.
+    ...
+};
+
+void some_function()
+{ // Brace in a new line for functions.
+    if (condition) { // Space between "if" and "(", and brace in the same line.
+        some_function(); // Indentation of the code inside.
+    }
+    else if (another_condition) { // "else" is in a new line.
+        other_function(a);
+    }
+    else {
+        other_function();
+    }
+
+    // Same rules for loops.
+    for (auto i = 0; i < 10; ++i) {
+        some_function();
+    }
+
+    while (condition) {
+        some_function();
+    }
+
+    do {
+        some_function();
+    } while (condition);
+
+    switch (x) {
+    case 0: // No indentation for each case.
+        ...
+        break;
+    case 1:
+        ...
+        break;
+    default:
+        ...
+        break;
+    }
+}
+
+} // namespace some_namespace
+```
+
+**Note:** use always braces as shown in the example, to avoid eventual bugs if more code is added later that should be executed inside of a condition/loop statement.
 
 ## Header files
 
@@ -443,7 +641,7 @@ typedef Foo Bar; // But prefer `using` instead.
 
 ## Tools
 
-// TODO: Complete.
+// TODO: Complete and update .clang-format and .clang-tidy files.
 
 - clang-format
 - clang-tidy
@@ -465,6 +663,8 @@ Licensed under the [MIT license](./LICENSE).
 - [PEP (Python Enhancement Proposal) 8: Style Guide for Python Code][ref-python-pep8]
 - [Snake case][ref-style-snake-case]
 - [Camel case][ref-style-camel-case]
+- [Clang-format][ref-tool-clang-format]
+- [Clang-tidy][ref-tool-clang-tidy]
 
 [ref-cpp-core-guidelines]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md "C++ Core Guidelines"
 [ref-cpp-bs-tech-faq]: https://www.stroustrup.com/bs_faq2.html "Bjarne Stroustrup: C++ Style and Technique FAQ"
@@ -475,3 +675,5 @@ Licensed under the [MIT license](./LICENSE).
 [ref-python-pep8]: https://peps.python.org/pep-0008/ "PEP (Python Enhancement Proposal) 8: Style Guide for Python Code"
 [ref-style-snake-case]: https://en.wikipedia.org/wiki/Snake_case "Snake case"
 [ref-style-camel-case]: https://en.wikipedia.org/wiki/Camel_case "Camel case"
+[ref-tool-clang-format]: https://clang.llvm.org/docs/ClangFormat.html "Clang-format"
+[ref-tool-clang-tidy]: https://clang.llvm.org/extra/clang-tidy/ "Clang-tidy"
