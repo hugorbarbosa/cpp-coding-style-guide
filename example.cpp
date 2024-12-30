@@ -28,6 +28,8 @@ MyDerivedClass::MyDerivedClass(const int data)
  */
 void do_something(const int int_par, const MyEnum enum_par) noexcept
 {
+    // The statements here are only to verify the layout style for each one of them (if, for, etc.).
+
     constexpr auto do_something = []() {
         // Do something.
     };
@@ -45,8 +47,6 @@ void do_something(const int int_par, const MyEnum enum_par) noexcept
     for (auto i = 0; i < 10; ++i) {
         do_something();
     }
-
-    // A small comment.
 
     bool flag{false}; // A trailing comment example.
     while (!flag) {

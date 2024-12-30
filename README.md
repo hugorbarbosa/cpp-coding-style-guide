@@ -1,6 +1,6 @@
 # C++ Coding Style Guide
 
-This project mentions some C++ coding styles that are often used on C++ projects, and contains my C++ coding style guide.
+This project presents some C++ coding styles that are often used on C++ projects, and contains my C++ coding style guide.
 
 ## Table of contents
 
@@ -61,15 +61,15 @@ C++ is a complex and powerful language with many features that can be used in di
 
 There's no "official" coding style guide for C++, as we have with [Python][ref-python-pep8] for example. However, there are several widely-recognized C++ coding style guides used in the industry. Below are some of the most popular ones:
 
-- **[C++ Core Guidelines][ref-cpp-core-guidelines]**: collection of guidelines written by Bjarne Stroustrup, the creator of C++, along with other C++ experts. It is a set of guidelines for using C++ well, intended to help people to use modern C++ effectively. These guidelines are focused on relatively high-level issues, such as interfaces, resource management, memory management, and concurrency.
-- **[Google C++ Style Guide][ref-google-cpp-style-guide]**: comprehensive style guide used across Google's codebase. It covers various topics like naming conventions, function design, and performance optimization.
-- **[Microsoft Coding Style Guide][ref-microsoft-cpp-style-guide]**: coding style guide of Microsoft. It contains many coding style rules on code formatting and naming conventions.
-- **[LLVM Coding Standards][ref-llvm-cpp-coding-standards]**: set of conventions used by the LLVM project, focusing on consistency and the clarity of code, particularly for large projects. It includes detailed rules on indentation, function declarations, and code organization.
-- **[Mozilla C++ Style Guide][ref-mozilla-cpp-style-guide]**: style guide used for code written within the Mozilla project. It includes guidelines on code organization, documentation, and how to structure complex systems.
+- [**C++ Core Guidelines**][ref-cpp-core-guidelines]: collection of guidelines written by Bjarne Stroustrup, the creator of C++, along with other C++ experts. It is a set of guidelines for using C++ well, intended to help people to use modern C++ effectively. These guidelines are focused on relatively high-level issues, such as interfaces, resource management, memory management, and concurrency.
+- [**Google C++ Style Guide**][ref-google-cpp-style-guide]: comprehensive style guide used across Google's codebase. It covers various topics like naming conventions, function design, and performance optimization.
+- [**Microsoft Coding Style Guide**][ref-microsoft-cpp-style-guide]: coding style guide of Microsoft. It contains many coding style rules on code formatting and naming conventions.
+- [**LLVM Coding Standards**][ref-llvm-cpp-coding-standards]: set of conventions used by the LLVM project, focusing on consistency and the clarity of code, particularly for large projects. It includes detailed rules on indentation, function declarations, and code organization.
+- [**Mozilla C++ Style Guide**][ref-mozilla-cpp-style-guide]: style guide used for code written within the Mozilla project. It includes guidelines on code organization, documentation, and how to structure complex systems.
 
 ### My C++ coding style guide
 
-This document describes my personal C++ coding style guide, reflecting my preferences and practices. It is not meant to be exhaustive and its focus is *not* on how to use C++ effectively, for that I highly recommend exploring the [C++ Core Guidelines][ref-cpp-core-guidelines], which is an excellent resource for mastering modern C++ practices and writing clean and efficient code. Instead, it highlights some conventions I follow in my C++ projects regarding coding layout style, naming conventions, indentation, etc. There may be additional considerations or exceptions depending on the project's needs and context.
+This document describes my personal C++ coding style guide, reflecting my preferences and practices. It is not meant to be exhaustive and its focus is *not* on how to use C++ effectively, for that I highly recommend exploring the [C++ Core Guidelines][ref-cpp-core-guidelines], which is an excellent resource for mastering modern C++ practices and writing clean and efficient code. Instead, this guide highlights some conventions I follow in my C++ projects regarding coding layout style, naming conventions, indentation, etc.
 
 Please note that this coding style guide may not be suitable for every project and should be adapted as needed to meet specific project requirements. It just contains my preferences and conventions that I try to follow in my personal projects and in projects without any established coding standard/style.
 
@@ -116,7 +116,7 @@ typedef std::vector<int> IntegerContainer;
 
 Another option is using [`snake_case`][ref-style-snake-case], i.e., lowercase and with underscores to separate words, as the C++ Standard Library usually applies.
 
-To better differentiate user-defined types from the Standard Library types, another possibility is using the upper case only on the first letter and keeping underscore (e.g., `My_type`), as mentioned in the [C++ Core Guidelines][ref-cpp-core-guidelines].
+To better differentiate user-defined types from the Standard Library types, it can be used upper case only on the first letter and keeping underscore (e.g., `My_type`), as mentioned in the [C++ Core Guidelines][ref-cpp-core-guidelines].
 
 ```c++
 // Using snake_case.
@@ -158,7 +158,7 @@ private:
 };
 ```
 
-Another aspect that is often seen in C++ projects in variable names are prefixes and suffixes. For class private data members, it is common using the suffix `_` or prefixes like `m_` or just `m` (`m` is more common when using `camelCase`):
+An aspect that is often seen in C++ projects in variable names is the usage of prefixes and suffixes. For class private data members, it is common adding the suffix `_` or prefixes like `m_` or just `m` (`m` is more common when using `camelCase`):
 
 ```c++
 class MyClass {
@@ -207,7 +207,7 @@ public:
 };
 ```
 
-Another possibility is using `camelCase` or `PascalCase` when naming functions:
+Another possibility is using `camelCase` or `PascalCase` for naming functions:
 
 ```c++
 // Using camelCase.
@@ -233,7 +233,7 @@ enum class MyEnum {
 };
 ```
 
-If it makes sense considering the style defined for variables, functions, etc., `camelCase` or `PascalCase` might also be used to name enumerators:
+Similarly, `camelCase` or `PascalCase` might also be used to name enumerators:
 
 ```c++
 enum class MyEnum {
@@ -251,7 +251,7 @@ enum class MyEnum {
 
 Choose only one style and be consistent within a project.
 
-It is relevant to refer that never use `ALL_CAPS` for enumerators to avoid clashes with macros:
+**Note:** never use `ALL_CAPS` for enumerators to avoid clashes with macros:
 
 ```c++
 #define START 1
@@ -276,7 +276,7 @@ namespace nested_namespace {
 } // namespace project_name
 ```
 
-Note that the top-level namespace name should be based on the project name. In addition, care must be taken when naming namespaces to avoid collisions between different namespaces but with the same name.
+The top-level namespace name should be based on the project name. In addition, care must be taken when naming namespaces to avoid collisions between different namespaces but with the same name.
 
 ### Macros
 
@@ -290,18 +290,20 @@ However, macros are a major source of bugs, since they don't obey the usual scop
 
 ### Files and directories
 
-Names of files and directories should be all lowercase and can include underscores (`_`) to separate words.
+Names of files and directories should be all lowercase and include underscores (`_`) to separate words.
 
 Examples:
+
 - `my_class.cpp`
 - `my_class.h`
 - `a_directory/my_struct.h`
 
 For files relative to tests, use a prefix correspondent to the testing level:
-- Mock related to `my_class`: `mock_my_class.h`
+
 - Unit test file related to `my_class`: `ut_my_class.cpp`
 - Integration test file: `it_something.cpp`
 - System test file: `st_something.cpp`
+- Mock related to `my_class`: `mock_my_class.h`
 
 ## Comments and documentation
 
@@ -311,7 +313,7 @@ Comments are important to state intent more clearly to the reader. It should con
 
 ### Comment style
 
-Comment using either the `//` or `/* */` syntax, as long as consistency is maintained.
+Comment using either the `//` or `/* */` syntax, as long as consistency is maintained:
 
 ```c++
 // This is a comment.
@@ -327,9 +329,9 @@ Comment using either the `//` or `/* */` syntax, as long as consistency is maint
 
 ### TODO comments
 
-A TODO comment should be used when something needs to be done or changed in the future. Examples of this are: some feature or functionality should be changed or is missing; and a particular code is temporary, being a short-term solution.
+A TODO comment should be used when something needs to be done or changed in the future. Examples of this can be some feature or functionality that should be changed or is missing; and a particular code that is temporary, being a short-term solution.
 
-Its format should contain the "TODO" text, followed issue/bug ID, name or other identifier that contains the problem referenced by the TODO:
+Its format should contain the "TODO" text, followed by the issue/bug ID, a name or other identifier that contains the problem referenced by the TODO:
 
 ```c++
 void a_function()
@@ -344,11 +346,12 @@ void a_function()
 It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation automatically. For that purpose, document the source code using the format supported by Doxygen (see [Tools](#tools) section).
 
 Examples:
+
 - For files, start with the documentation as shown in the following example:
     ```c++
     /**
      * @file
-     * @copyright Copyright (C) 2024 <Author/Company>, All rights reserved.
+     * @copyright Copyright (C) 2024 <Author/Company>. All rights reserved.
      */
     // ...
     ```
@@ -435,25 +438,25 @@ Examples:
 
 ## Formatting
 
-Ensuring that the code always has the desired format is a very complicated and error-prone task. Thus, it is highly recommend to use a tool that automatically checks and formats the code (see [Tools](#tools) section).
+Ensuring that the code always has the desired format is a very difficult and error-prone task. Thus, it is highly recommended to use a tool that automatically checks and formats the code (see [Tools](#tools) section).
 
 ### Line length
 
-Each line of code should be at most 100 characters long. A line may exceed this maximum value in some cases, for example, when a literal URL is longer than that value.
+Each line of code should be at most 100 characters long. A line may exceed this maximum value only in some exceptional cases (e.g., when a literal URL is longer than that value).
 
 ### Spaces vs tabs
 
 Use only spaces, and use 4 spaces for indentation.
 
-Tabs should not be used in code, to ensure that the alignment and number of spaces are consistent independently of the code editor used.
+Tabs should not be used in code, to ensure that the alignment and number of spaces are consistent independently of the IDE / code editor used.
 
-Set the code editor to emit spaces when pressing the tab key.
+Furthermore, it is recommended to configure the IDE/editor to emit spaces when pressing the tab key.
 
 ### Layout style
 
 The Kernighan & Ritchie (K&R) style is commonly used for C and C++ code, because it preserves vertical space well, and helps to easily distinguish different language constructs, such as functions and classes.
 
-When adding conventions for constructs not found in C, that becomes what is often called as "Stroustrup" style, being recommended by the [C++ Core Guidelines][ref-cpp-core-guidelines].
+When adding conventions for constructs not found in C, that becomes what is often called as "Stroustrup" style, being this style suggested by the [C++ Core Guidelines][ref-cpp-core-guidelines].
 
 Example:
 
@@ -493,7 +496,7 @@ void some_function()
     } while (condition);
 
     switch (x) {
-    case 0: // No indentation for each case.
+    case 0: // No indentation of the case label.
         // ...
         break;
     case 1:
@@ -508,7 +511,7 @@ void some_function()
 } // namespace some_namespace
 ```
 
-**Note:** use always braces as shown in the example, to avoid eventual bugs if more code is added later that should be executed inside of a condition/loop statement.
+**Note:** use always braces as shown in the example for `if`s, `for`s, `while`s, etc., to avoid eventual bugs if more code is added later that should be executed inside of a condition/loop statement.
 
 ## Header files
 
@@ -524,11 +527,11 @@ To avoid multiple inclusion, the header files should have `#define` guards. Addi
 #endif // FOO_BAR_H
 ```
 
-Some implementations offer vendor extensions like `#pragma once` as alternative to include guards. However, note that this is not standard and is not portable.
+Some implementations offer vendor extensions like `#pragma once` as alternative to `#define` guards. However, note that this is not standard and is not portable.
 
 ### Using namespaces
 
-Don't write `using namespace` at global scope in a header file, because it exposes this `using namespace` in all files that include this header file:
+Don't write `using namespace` at global scope in a header file, because it exposes this `using namespace` to all files that include this header file:
 
 ```c++
 // bad.h
@@ -553,9 +556,9 @@ class MyClass {
     void a_member_function();
 };
 
-} // namespace project_name
+}
 
-#include "my_class.ipp"
+#include "my_class.ipp" // Header file includes the .ipp file.
 
 // my_class.ipp
 
@@ -567,7 +570,7 @@ void MyClass<T>::a_member_function()
     // ...
 }
 
-} // namespace project_name
+}
 ```
 
 ## Classes and structs
@@ -581,7 +584,7 @@ struct Example {
     int x;
     int y;
 private:
-    int z; // Private member: "Example" should be defined as class instead.
+    int z; // Private member: "Example" should be declared as class instead.
 };
 ```
 
@@ -600,40 +603,26 @@ Use the following order when declaring a class:
 - Data members (static and non-static)
 
 Use the following order regarding access control (omit sections in case they are empty):
+
 - `public`
 - `protected`
 - `private`
 
-Declare the section for member functions and for data, independently if it is the same, like the following example:
+Declare the access for member functions and for data, independently if it is the same, like the following example:
 
 ```c++
 class X {
 public:
-    void function1();
+    void a_function();
 
 private:
-    void function2();
+    void another_function();
 
-private: // To be explicit.
-    int data1;
-};
-```
-
-Declare member functions and after the data members, independently of the access defined:
-
-```c++
-class X {
-public:
-    void function1();
+public: // Declare access for this data member and don't place together with the public member functions.
+    int data;
 
 private:
-    void function2();
-
-public:
-    int data1;
-
-private:
-    int data2;
+    int another_data;
 };
 ```
 
@@ -641,7 +630,7 @@ private:
 
 ### `auto` usage
 
-Do not use `auto` only to avoid the inconvenience of writing an explicit type. Use `auto` only if it makes the code clearer to readers who aren't familiar with the project, or if it makes the code safer.
+Do not use `auto` only to avoid the inconvenience of writing an explicit type. Use `auto` in case if it makes the code clearer to readers or if it makes the code safer.
 
 ## Aliases
 
@@ -658,7 +647,7 @@ typedef Foo Bar; // But prefer `using` instead.
 
 ### Clang-format
 
-Clang-format is a tool that can be used to format C++, C, C#, Java, JavaScript, JSON, Objective-C and Protobuf code. This tool can be utilized in a variety of ways, including a standalone tool and IDE/editor integration.
+Clang-format is a tool that can be used to format C++, C, C#, Java, JavaScript, JSON, Objective-C and Protobuf code. This tool can be utilized in a variety of ways, including as a standalone tool and integrated in a IDE/editor.
 
 Clang-format supports many options that can be found using the `--help` option:
 
@@ -666,16 +655,16 @@ Clang-format supports many options that can be found using the `--help` option:
 $ clang-format --help
 ```
 
-This tool allows you to directly apply a predefined code style, based on styles such as Google, Microsoft, among others. Furthermore, it can also be easily configurable with your desired style options. All style options permitted by clang-format can be found in [clang-format style options][ref-tool-clang-format-style-options].
+This tool allows you to directly apply a predefined code style, based on styles such as Google, Microsoft, among others. This base style can be adjusted to your needs or, if necessary, a style can be completely configured with the desired style options. All these style options permitted by clang-format can be found in [clang-format style options][ref-tool-clang-format-style-options].
 
 To exemplify how to use clang-format, this guide uses the following:
 
-- A [code sample file](./example.cpp) that contains some code that will be formatted using this tool.
+- Code sample files ([header](./example.h) and [implementation](./example.cpp)) that contain some code that will be formatted using this tool.
 - A clang-format [configuration file](./.clang-format) that includes the desired style options.
 
-As mentioned previously, clang-format can be integrated in a IDE/editor and we will use Visual Studio Code as editor example in this guide. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-format from this editor. Additionally, you can configure to format automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
+As previously mentioned, clang-format can be integrated in a IDE/editor and we will use Visual Studio Code as editor example in this guide. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-format from this editor. Additionally, you can configure to format automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
 
-Feel free to use the sample file to do some experiments and verify that the code is automatically formatted when you save it, keeping always the code with the intended style.
+Feel free to use the code sample files to do some experiments and verify that the code is automatically formatted when you save it, keeping it always with the intended style.
 
 Refer to the [clang-format page][ref-tool-clang-format] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
 
@@ -689,15 +678,15 @@ Clang-tidy supports many options that can be found using the `--help` option:
 $ clang-tidy --help
 ```
 
-This tool allows you to specify various check options based on groups through a name prefix, such as `cppcoreguidelines-` that performs checks related to C++ Core Guidelines, among many others. All check options permitted by clang-tidy can be found in [clang-tidy checks][ref-tool-clang-tidy-checks].
+This tool allows you to specify various check options based on groups through a name prefix, such as `cppcoreguidelines-` that performs checks related to C++ Core Guidelines. All check options permitted by clang-tidy can be found in [clang-tidy checks][ref-tool-clang-tidy-checks].
 
-As mentioned previously, clang-tidy can be integrated in a IDE/editor. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-tidy from this editor. Additionally, you can configure to analyze automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
+As previously mentioned, clang-tidy can be integrated in a IDE/editor. The [C/C++ extension][ref-vscode-cpp-extension] needs to be installed for configuring and using clang-tidy from this editor. Additionally, you can configure to analyze automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
 
 Refer to the [clang-tidy page][ref-tool-clang-tidy] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
 
 ### Doxygen
 
-Doxygen is a documentation generator tool that automates the generation of documentation from source code comments, supporting C++, C, C#, Python, PHP, Java, Objective-C, Fortran, VHDL, Splice, IDL, and Lex code. The documentation can be generated in various output formats, such as HTML and PDF. Additionally, this tool is able to generate graphical representations of class hierarchies and collaboration diagrams, providing a visual overview of the relationships between classes and functions.
+Doxygen is a documentation generator tool that automates the creation of documentation from source code comments, supporting C++, C, C#, Python, PHP, Java, Objective-C, Fortran, VHDL, Splice, IDL, and Lex code. The documentation can be generated in various output formats, such as HTML and PDF. Additionally, this tool is able to generate graphical representations of class hierarchies and collaboration diagrams, providing a visual overview of the relationships between classes and functions.
 
 Doxygen supports many options that can be found using the `--help` option:
 
@@ -730,7 +719,7 @@ Licensed under the [MIT license](./LICENSE).
 - [Clang-tidy][ref-tool-clang-tidy]
 - [Clang-tidy checks][ref-tool-clang-tidy-checks]
 - [Doxygen][ref-tool-doxygen]
-- [VS Code C++ extension][ref-vscode-cpp-extension]
+- [Visual Studio Code C++ extension][ref-vscode-cpp-extension]
 - [C++ project template][ref-cpp-project-template]
 
 [ref-cpp-core-guidelines]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md "C++ Core Guidelines"
@@ -748,5 +737,5 @@ Licensed under the [MIT license](./LICENSE).
 [ref-tool-clang-tidy]: https://clang.llvm.org/extra/clang-tidy/ "Clang-tidy"
 [ref-tool-clang-tidy-checks]: https://clang.llvm.org/extra/clang-tidy/checks/list.html "Clang-tidy checks"
 [ref-tool-doxygen]: https://www.doxygen.nl/ "Doxygen"
-[ref-vscode-cpp-extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools "VS Code C++ extension"
+[ref-vscode-cpp-extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools "Visual Studio Code C++ extension"
 [ref-cpp-project-template]: https://github.com/hugorbarbosa/cpp-project-template "C++ project template"
