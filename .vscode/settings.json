@@ -1,0 +1,19 @@
+{
+    "editor.rulers": [
+        100
+    ],
+    "editor.formatOnSave": true,
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.codeAnalysis.exclude": {
+        "**/build*": true
+    },
+    "cSpell.enabled": true,
+    "cSpell.enabledFileTypes": {
+        "*": true,
+        "markdown": true
+    },
+    "files.insertFinalNewline": true,
+    "files.associations": {
+        "string": "cpp"
+    },
+}
