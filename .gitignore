@@ -1,5 +1,5 @@
 # IDE/Editor settings
-.vscode/
+# .vscode/
 
 # Build files
 *build*/*

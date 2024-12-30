@@ -4,8 +4,6 @@ This project mentions some C++ coding styles that are often used on C++ projects
 
 ## Table of contents
 
-// TODO: Update.
-
 - [Introduction](#introduction)
     - [Why a coding style guide matters](#why-a-coding-style-guide-matters)
     - [Popular C++ coding style guides](#popular-c-coding-style-guides)
@@ -19,7 +17,7 @@ This project mentions some C++ coding styles that are often used on C++ projects
     - [Namespaces](#namespaces)
     - [Macros](#macros)
     - [Files and directories](#files-and-directories)
-- [Comments](#comments)
+- [Comments and documentation](#comments-and-documentation)
     - [Comments usage](#comments-usage)
     - [Comment style](#comment-style)
     - [TODO comments](#todo-comments)
@@ -27,7 +25,7 @@ This project mentions some C++ coding styles that are often used on C++ projects
 - [Formatting](#formatting)
     - [Line length](#line-length)
     - [Spaces vs tabs](#spaces-vs-tabs)
-    - [K&R-derived layout](#kr-derived-layout)
+    - [Layout style](#layout-style)
 - [Header files](#header-files)
     - [Include guards](#include-guards)
     - [Using namespaces](#using-namespaces)
@@ -40,6 +38,9 @@ This project mentions some C++ coding styles that are often used on C++ projects
 - [Aliases](#aliases)
     - [`using` vs `typedef`](#using-vs-typedef)
 - [Tools](#tools)
+    - [Clang-format](#clang-format)
+    - [Clang-tidy](#clang-tidy)
+    - [Doxygen](#doxygen)
 - [License](#license)
 - [References](#references)
 
@@ -62,6 +63,7 @@ There's no "official" coding style guide for C++, as we have with [Python][ref-p
 
 - **[C++ Core Guidelines][ref-cpp-core-guidelines]**: collection of guidelines written by Bjarne Stroustrup, the creator of C++, along with other C++ experts. It is a set of guidelines for using C++ well, intended to help people to use modern C++ effectively. These guidelines are focused on relatively high-level issues, such as interfaces, resource management, memory management, and concurrency.
 - **[Google C++ Style Guide][ref-google-cpp-style-guide]**: comprehensive style guide used across Google's codebase. It covers various topics like naming conventions, function design, and performance optimization.
+- **[Microsoft Coding Style Guide][ref-microsoft-cpp-style-guide]**: coding style guide of Microsoft. It contains many coding style rules on code formatting and naming conventions.
 - **[LLVM Coding Standards][ref-llvm-cpp-coding-standards]**: set of conventions used by the LLVM project, focusing on consistency and the clarity of code, particularly for large projects. It includes detailed rules on indentation, function declarations, and code organization.
 - **[Mozilla C++ Style Guide][ref-mozilla-cpp-style-guide]**: style guide used for code written within the Mozilla project. It includes guidelines on code organization, documentation, and how to structure complex systems.
 
@@ -97,19 +99,18 @@ Type names should use `PascalCase`, i.e., each word should start with a capital 
 
 ```c++
 class MyClass {
-    ...
+    // ...
 };
 
 struct MyStruct {
-    ...
+    // ...
 };
 
 enum class MyEnum {
-    ...
+    // ...
 };
 
 using IntegerContainer = std::vector<int>;
-
 typedef std::vector<int> IntegerContainer;
 ```
 
@@ -120,12 +121,12 @@ To better differentiate user-defined types from the Standard Library types, anot
 ```c++
 // Using snake_case.
 class my_class {
-    ...
+    // ...
 };
 
 // Using snake_case but with first letter in upper case.
 class My_class {
-    ...
+    // ...
 };
 ```
 
@@ -139,7 +140,6 @@ Variables (including function parameters) and data members of classes and struct
 int a_variable{0};
 
 class MyClass {
-    ...
 private:
     int data_member;
 };
@@ -153,17 +153,15 @@ When naming variables, it is also common using [`camelCase`][ref-style-camel-cas
 
 ```c++
 class MyClass {
-    ...
 private:
     int dataMember;
 };
 ```
 
-Another aspect that is often seen in C++ projects in variable names are prefixes and suffixes. For class private data members, it is common using the suffix `_` or prefixes like `m_` or just `m` (only `m` more common when using `camelCase`):
+Another aspect that is often seen in C++ projects in variable names are prefixes and suffixes. For class private data members, it is common using the suffix `_` or prefixes like `m_` or just `m` (`m` is more common when using `camelCase`):
 
 ```c++
 class MyClass {
-    ...
 private:
     // Using suffix "_".
     int data_member_1_;
@@ -204,7 +202,6 @@ Function names should use `snake_case`:
 void a_free_function(const int a_parameter);
 
 class MyClass {
-    ...
 public:
     void a_member_function(const int a_parameter);
 };
@@ -217,7 +214,6 @@ Another possibility is using `camelCase` or `PascalCase` when naming functions:
 void anotherFreeFunction();
 
 class MyClass {
-    ...
 public:
     // Using PascalCase.
     void AnotherMemberFunction();
@@ -228,15 +224,32 @@ Choose only one style and be consistent within a project.
 
 ### Enumerators
 
-Enumerators (for both scoped and unscoped enums) should use the same naming format used for [constants](#constants):
+Enumerators (for both scoped and unscoped enums) should use `snake_case`:
 
 ```c++
-// When constants use snake_case.
 enum class MyEnum {
     first_enumerator = 0,
     second_enumerator,
 };
 ```
+
+If it makes sense considering the style defined for variables, functions, etc., `camelCase` or `PascalCase` might also be used to name enumerators:
+
+```c++
+enum class MyEnum {
+    // Using camelCase.
+    firstEnumerator,
+    secondEnumerator,
+};
+
+enum class MyEnum {
+    // Using PascalCase.
+    FirstEnumerator,
+    SecondEnumerator,
+};
+```
+
+Choose only one style and be consistent within a project.
 
 It is relevant to refer that never use `ALL_CAPS` for enumerators to avoid clashes with macros:
 
@@ -244,8 +257,8 @@ It is relevant to refer that never use `ALL_CAPS` for enumerators to avoid clash
 #define START 1
 #define STOP 2
 
-// Don't use ALL_CAPS.
 enum class MyEnum {
+    // Don't use ALL_CAPS.
     START,
     STOP
 };
@@ -258,7 +271,7 @@ Namespace names should use `snake_case`:
 ```c++
 namespace project_name {
 namespace nested_namespace {
-...
+// ...
 } // namespace nested_namespace
 } // namespace project_name
 ```
@@ -302,7 +315,10 @@ Comment using either the `//` or `/* */` syntax, as long as consistency is maint
 
 ```c++
 // This is a comment.
-/* This is another comment. */
+// This is a multi-line
+// comment.
+
+/* This is a comment. */
 /*
  * This is a multi-line
  * comment.
@@ -316,24 +332,25 @@ A TODO comment should be used when something needs to be done or changed in the 
 Its format should contain the "TODO" text, followed issue/bug ID, name or other identifier that contains the problem referenced by the TODO:
 
 ```c++
-void a_function() {
+void a_function()
+{
     // TODO Issue-42: Avoid copies performed here.
-    ...
+    // ...
 }
 ```
 
 ### Documentation
 
-It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation automatically. For that purpose, document the source code using the format utilized by Doxygen (see [Tools](#tools) section).
+It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation automatically. For that purpose, document the source code using the format supported by Doxygen (see [Tools](#tools) section).
 
 Examples:
 - For files, start with the documentation as shown in the following example:
     ```c++
     /**
      * @file
-     * @copyright Copyright (C) 2024 <Author/Company> - All Rights Reserved.
+     * @copyright Copyright (C) 2024 <Author/Company>, All rights reserved.
      */
-    ...
+    // ...
     ```
 - For classes/structs and member/free functions:
     ```c++
@@ -396,8 +413,6 @@ Examples:
      */
     template<typename T>
     class MyClass {
-    public:
-        ...
     private:
         /// Data member example.
         T data_member;
@@ -420,7 +435,7 @@ Examples:
 
 ## Formatting
 
-Ensuring that the code always has the desired format is a very complicated and error-prone task. Thus, it is highly recommend to use a tool that automatically checks and formats automatically the code. Clang-format is a tool that can be used for this purpose (see [Tools](#tools) section).
+Ensuring that the code always has the desired format is a very complicated and error-prone task. Thus, it is highly recommend to use a tool that automatically checks and formats the code (see [Tools](#tools) section).
 
 ### Line length
 
@@ -434,7 +449,7 @@ Tabs should not be used in code, to ensure that the alignment and number of spac
 
 Set the code editor to emit spaces when pressing the tab key.
 
-### K&R-derived layout
+### Layout style
 
 The Kernighan & Ritchie (K&R) style is commonly used for C and C++ code, because it preserves vertical space well, and helps to easily distinguish different language constructs, such as functions and classes.
 
@@ -449,7 +464,7 @@ namespace some_namespace { // Brace in the same line for namespaces.
 
 class B : public A { // Brace in the same line for classes/structs/enums.
 public: // No indentation.
-    ...
+    // ...
 };
 
 void some_function()
@@ -479,13 +494,13 @@ void some_function()
 
     switch (x) {
     case 0: // No indentation for each case.
-        ...
+        // ...
         break;
     case 1:
-        ...
+        // ...
         break;
     default:
-        ...
+        // ...
         break;
     }
 }
@@ -505,7 +520,7 @@ To avoid multiple inclusion, the header files should have `#define` guards. Addi
 // File "foo/src/bar.h":
 #ifndef FOO_BAR_H
 #define FOO_BAR_H
-// ... declarations ...
+// Declarations...
 #endif // FOO_BAR_H
 ```
 
@@ -534,7 +549,7 @@ namespace project_name {
 
 template<typename T>
 class MyClass {
-    ...
+    // ...
     void a_member_function();
 };
 
@@ -549,7 +564,7 @@ namespace project_name {
 template<typename T>
 void MyClass<T>::a_member_function()
 {
-    ...
+    // ...
 }
 
 } // namespace project_name
@@ -641,12 +656,58 @@ typedef Foo Bar; // But prefer `using` instead.
 
 ## Tools
 
-// TODO: Complete and update .clang-format and .clang-tidy files.
+### Clang-format
 
-- clang-format
-- clang-tidy
-- VS Code
-- Doxygen
+Clang-format is a tool that can be used to format C++, C, C#, Java, JavaScript, JSON, Objective-C and Protobuf code. This tool can be utilized in a variety of ways, including a standalone tool and IDE/editor integration.
+
+Clang-format supports many options that can be found using the `--help` option:
+
+```sh
+$ clang-format --help
+```
+
+This tool allows you to directly apply a predefined code style, based on styles such as Google, Microsoft, among others. Furthermore, it can also be easily configurable with your desired style options. All style options permitted by clang-format can be found in [clang-format style options][ref-tool-clang-format-style-options].
+
+To exemplify how to use clang-format, this guide uses the following:
+
+- A [code sample file](./example.cpp) that contains some code that will be formatted using this tool.
+- A clang-format [configuration file](./.clang-format) that includes the desired style options.
+
+As mentioned previously, clang-format can be integrated in a IDE/editor and we will use Visual Studio Code as editor example in this guide. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-format from this editor. Additionally, you can configure to format automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
+
+Feel free to use the sample file to do some experiments and verify that the code is automatically formatted when you save it, keeping always the code with the intended style.
+
+Refer to the [clang-format page][ref-tool-clang-format] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
+
+### Clang-tidy
+
+Clang-tidy is a clang-based C++ "linter" tool, that provides an extensible framework for diagnosing and fixing typical programming errors, like interface misuse or bugs, that can be deduced via static analysis. It can be utilized as a standalone tool or integrated in a IDE/editor.
+
+Clang-tidy supports many options that can be found using the `--help` option:
+
+```sh
+$ clang-tidy --help
+```
+
+This tool allows you to specify various check options based on groups through a name prefix, such as `cppcoreguidelines-` that performs checks related to C++ Core Guidelines, among many others. All check options permitted by clang-tidy can be found in [clang-tidy checks][ref-tool-clang-tidy-checks].
+
+As mentioned previously, clang-tidy can be integrated in a IDE/editor. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-tidy from this editor. Additionally, you can configure to analyze automatically the code when saving a file, using the [settings](./.vscode/settings.json) file available in this guide as example.
+
+Refer to the [clang-tidy page][ref-tool-clang-tidy] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
+
+### Doxygen
+
+Doxygen is a documentation generator tool that automates the generation of documentation from source code comments, supporting C++, C, C#, Python, PHP, Java, Objective-C, Fortran, VHDL, Splice, IDL, and Lex code. The documentation can be generated in various output formats, such as HTML and PDF. Additionally, this tool is able to generate graphical representations of class hierarchies and collaboration diagrams, providing a visual overview of the relationships between classes and functions.
+
+Doxygen supports many options that can be found using the `--help` option:
+
+```sh
+$ doxygen --help
+```
+
+This tool provides a configuration file (Doxyfile) that permits users to customize the documentation generation process. The format of the comments needs to follow the one presented in the [Documentation](#documentation) section.
+
+Refer to the [Doxygen page][ref-tool-doxygen] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
 
 ## License
 
@@ -658,22 +719,34 @@ Licensed under the [MIT license](./LICENSE).
 - [Bjarne Stroustrup: C++ Style and Technique FAQ][ref-cpp-bs-tech-faq]
 - [Bjarne Stroustrup: PPP Style Guide][ref-cpp-bs-ppp-style]
 - [Google C++ Style Guide][ref-google-cpp-style-guide]
+- [Microsoft Coding Style Guide][ref-microsoft-cpp-style-guide]
 - [LLVM Coding Standards][ref-llvm-cpp-coding-standards]
 - [Mozilla C++ Style Guide][ref-mozilla-cpp-style-guide]
 - [PEP (Python Enhancement Proposal) 8: Style Guide for Python Code][ref-python-pep8]
 - [Snake case][ref-style-snake-case]
 - [Camel case][ref-style-camel-case]
 - [Clang-format][ref-tool-clang-format]
+- [Clang-format style options][ref-tool-clang-format-style-options]
 - [Clang-tidy][ref-tool-clang-tidy]
+- [Clang-tidy checks][ref-tool-clang-tidy-checks]
+- [Doxygen][ref-tool-doxygen]
+- [VS Code C++ extension][ref-vscode-cpp-extension]
+- [C++ project template][ref-cpp-project-template]
 
 [ref-cpp-core-guidelines]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md "C++ Core Guidelines"
 [ref-cpp-bs-tech-faq]: https://www.stroustrup.com/bs_faq2.html "Bjarne Stroustrup: C++ Style and Technique FAQ"
 [ref-cpp-bs-ppp-style]: https://www.stroustrup.com/Programming/PPP-style.pdf "Bjarne Stroustrup: PPP Style Guide"
 [ref-google-cpp-style-guide]: https://google.github.io/styleguide/cppguide.html "Google C++ Style Guide"
+[ref-microsoft-cpp-style-guide]: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options "Microsoft Coding Style Guide"
 [ref-llvm-cpp-coding-standards]: https://llvm.org/docs/CodingStandards.html "LLVM Coding Standards"
 [ref-mozilla-cpp-style-guide]: https://firefox-source-docs.mozilla.org/code-quality/coding-style/coding_style_cpp.html "Mozilla C++ Style Guide"
 [ref-python-pep8]: https://peps.python.org/pep-0008/ "PEP (Python Enhancement Proposal) 8: Style Guide for Python Code"
 [ref-style-snake-case]: https://en.wikipedia.org/wiki/Snake_case "Snake case"
 [ref-style-camel-case]: https://en.wikipedia.org/wiki/Camel_case "Camel case"
 [ref-tool-clang-format]: https://clang.llvm.org/docs/ClangFormat.html "Clang-format"
+[ref-tool-clang-format-style-options]: https://clang.llvm.org/docs/ClangFormatStyleOptions.html "Clang-format style options"
 [ref-tool-clang-tidy]: https://clang.llvm.org/extra/clang-tidy/ "Clang-tidy"
+[ref-tool-clang-tidy-checks]: https://clang.llvm.org/extra/clang-tidy/checks/list.html "Clang-tidy checks"
+[ref-tool-doxygen]: https://www.doxygen.nl/ "Doxygen"
+[ref-vscode-cpp-extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools "VS Code C++ extension"
+[ref-cpp-project-template]: https://github.com/hugorbarbosa/cpp-project-template "C++ project template"
