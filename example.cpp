@@ -28,9 +28,9 @@ MyDerivedClass::MyDerivedClass(const int data)
  */
 void do_something(const int int_par, const MyEnum enum_par) noexcept
 {
-    // The statements here are only to verify the layout style for each one of them (if, for, etc.).
+    // The statements here are only to verify the layout style (if, for, etc.).
 
-    constexpr auto do_something = []() {
+    const auto do_something = []() {
         // Do something.
     };
 

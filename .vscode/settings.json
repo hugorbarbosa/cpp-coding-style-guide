@@ -12,8 +12,5 @@
         "*": true,
         "markdown": true
     },
-    "files.insertFinalNewline": true,
-    "files.associations": {
-        "string": "cpp"
-    },
+    "files.insertFinalNewline": true
 }

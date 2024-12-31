@@ -22,7 +22,7 @@ public:
     MyClass(const int data) noexcept;
 
 private:
-    /// Data member example.
+    /// Data member.
     int data_;
 };
 
@@ -39,7 +39,7 @@ public:
     MyDerivedClass(const int data) noexcept;
 
 private:
-    /// Another data member example.
+    /// Another data member.
     int another_data_;
 };
 
@@ -47,9 +47,9 @@ private:
  * @brief Struct example.
  */
 struct MyStruct {
-    /// Data member example.
+    /// Data member.
     int integer_data;
-    /// Data member example.
+    /// Data member.
     double double_data;
 };
 
