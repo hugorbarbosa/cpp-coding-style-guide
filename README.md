@@ -79,7 +79,7 @@ This is a non-closed document and may evolve and improve whenever necessary.
 
 ## Naming conventions
 
-This section presents the conventions for naming variables, functions, etc. In some cases, more than one option is presented, so that the reader of this guide can also learn about other styles that are frequently seen in different C++ projects.
+This section presents the conventions for naming variables, functions, etc. In some cases, more than one option is presented, so that the reader of this guide can also learn about other styles that are frequently seen in different C++ projects (the first option mentioned for each topic corresponds to the one I prefer most).
 
 However, regardless of the style option you choose, be **consistent**.
 
@@ -158,7 +158,7 @@ private:
 };
 ```
 
-An aspect that is often seen in C++ projects in variable names is the usage of prefixes and suffixes. For class private data members, it is common adding the suffix `_` or prefixes like `m_` or just `m`:
+An aspect that is often seen in C++ projects in variable names is the usage of prefixes and suffixes. For instance, it is common adding the suffix `_` or prefixes like `m_` or just `m` for naming class private data members:
 
 ```c++
 class MyClass {
@@ -290,9 +290,7 @@ Nevertheless, macros can be a source of bugs because they don't obey the usual s
 
 ### Files and directories
 
-Names of files and directories should be all lowercase and include underscores (`_`) to separate words.
-
-Examples:
+Names of files and directories should be all lowercase and include underscores (`_`) to separate words. Examples:
 
 - `my_class.cpp`
 - `my_class.h`
@@ -351,7 +349,7 @@ Examples:
     ```c++
     /**
      * @file
-     * @copyright Copyright (C) 2024 <Author/Company>. All rights reserved.
+     * @copyright Copyright (C) 2024 <Author/Company>.
      */
     // ...
     ```
@@ -453,7 +451,7 @@ Furthermore, it is recommended to configure the IDE/editor to emit spaces when p
 
 The Kernighan & Ritchie (K&R) style is commonly used for C and C++ code, because it preserves vertical space well, and helps to easily distinguish different language constructs, such as functions and classes.
 
-When adding conventions for constructs not found in C, that becomes what is often called as "Stroustrup" style, being this style suggested by the [C++ Core Guidelines][ref-cpp-core-guidelines].
+When adding conventions for constructs not found in C, that becomes what is often called as "Stroustrup" style, being this style suggested in the [C++ Core Guidelines][ref-cpp-core-guidelines].
 
 Example:
 
@@ -508,7 +506,7 @@ void some_function()
 } // namespace some_namespace
 ```
 
-**Note:** use always braces as shown in the example for `if`s, `for`s, `while`s, etc., to avoid eventual bugs if more code is added later that should be executed inside of the condition/loop statement.
+**Note:** use always braces as shown in the example for `if`s, `for`s, `while`s, etc., to avoid eventual bugs if more code is added later that should be executed inside of the condition/loop scope.
 
 ## Header files
 
@@ -524,7 +522,7 @@ To avoid multiple inclusion, the header files should have `#define` guards. More
 #endif // FOO_DIR_BAR_H
 ```
 
-Some implementations offer vendor extensions like `#pragma once` as alternative to `#define` guards. However, note that this is not standard and is not portable.
+**Note:** some implementations offer vendor extensions like `#pragma once` as alternative to `#define` guards. However, note that this is not standard and is not portable.
 
 ### Using namespaces
 
@@ -601,30 +599,11 @@ Use the following order when declaring a class:
 - Member functions (static and non-static member functions, and friend functions)
 - Data members (static and non-static)
 
-Use the following order regarding access control (omit sections in case they are empty):
+Regarding access control, the following order should be used (omit sections in case they are empty):
 
 - `public`
 - `protected`
 - `private`
-
-Declare the access for member functions and for data, independently if it is the same, like the following example:
-
-```c++
-class X {
-public:
-    void a_function();
-
-private:
-    void another_function();
-
-// Do not join data members with members functions regardless of whether they are both public or private.
-public:
-    int data;
-
-private:
-    int another_data;
-};
-```
 
 ## Type deduction
 

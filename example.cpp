@@ -1,6 +1,6 @@
 /**
  * @file
- * @copyright Copyright (C) 2024 Hugo Barbosa. All rights reserved.
+ * @copyright Copyright (C) 2024 Hugo Barbosa.
  */
 
 #include "example.h"
@@ -10,13 +10,13 @@ namespace coding_style {
 namespace some_namespace {
 
 MyClass::MyClass(const int data)
-    : data_{data}
+    : data_member{data}
 {
 }
 
 MyDerivedClass::MyDerivedClass(const int data)
     : MyClass(data)
-    , another_data_{data + 1}
+    , another_data_member{data + 1}
 {
 }
 
@@ -28,30 +28,30 @@ MyDerivedClass::MyDerivedClass(const int data)
  */
 void do_something(const int int_par, const MyEnum enum_par) noexcept
 {
-    // The statements here are only to verify the layout style (if, for, etc.).
+    // The statements here are only to verify the layout style ("if" conditions, loops, etc.).
 
-    const auto do_something = []() {
+    const auto lambda_example = []() {
         // Do something.
     };
 
     if (int_par < 0) {
-        do_something();
+        lambda_example();
     }
     else if (int_par == 0) {
-        do_something();
+        // Do something.
     }
     else {
-        do_something();
+        // Do something different.
     }
 
     for (auto i = 0; i < 10; ++i) {
-        do_something();
+        // Do something.
     }
 
     bool flag{false}; // A trailing comment example.
     while (!flag) {
-        do_something(); // A very long trailing comment example, just to see how it is formatted
-                        // when has multiple lines.
+        lambda_example(); // A very long trailing comment example, just to see how it is formatted
+                          // when has multiple lines.
         flag = true;
     }
 
@@ -60,11 +60,11 @@ void do_something(const int int_par, const MyEnum enum_par) noexcept
 
     switch (enum_par) {
     case MyEnum::first_enumerator:
-        do_something();
+        lambda_example();
         break;
     case MyEnum::second_enumerator: {
         int local_var{0};
-        do_something();
+        lambda_example();
         ++local_var;
         break;
     }
