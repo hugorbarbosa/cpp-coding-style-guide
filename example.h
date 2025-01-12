@@ -1,6 +1,6 @@
 /**
  * @file
- * @copyright Copyright (C) 2024 Hugo Barbosa. All rights reserved.
+ * @copyright Copyright (C) 2024 Hugo Barbosa.
  */
 
 #ifndef CODING_STYLE_EXAMPLE_H
@@ -23,7 +23,7 @@ public:
 
 private:
     /// Data member.
-    int data_;
+    int data_member;
 };
 
 /**
@@ -40,7 +40,7 @@ public:
 
 private:
     /// Another data member.
-    int another_data_;
+    int another_data_member;
 };
 
 /**
