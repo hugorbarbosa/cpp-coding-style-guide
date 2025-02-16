@@ -3,7 +3,7 @@
  * @copyright Copyright (C) 2024 Hugo Barbosa.
  */
 
-#include "example.h"
+#include "example.hpp"
 #include <string>
 
 namespace coding_style {

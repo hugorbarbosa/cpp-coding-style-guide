@@ -3,8 +3,8 @@
  * @copyright Copyright (C) 2024 Hugo Barbosa.
  */
 
-#ifndef CODING_STYLE_EXAMPLE_H
-#define CODING_STYLE_EXAMPLE_H
+#ifndef CODING_STYLE_EXAMPLE_HPP
+#define CODING_STYLE_EXAMPLE_HPP
 
 namespace coding_style {
 namespace some_namespace {
@@ -66,4 +66,4 @@ enum class MyEnum {
 } // namespace some_namespace
 } // namespace coding_style
 
-#endif // CODING_STYLE_EXAMPLE_H
+#endif // CODING_STYLE_EXAMPLE_HPP

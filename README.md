@@ -27,6 +27,7 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [Spaces vs tabs](#spaces-vs-tabs)
     - [Layout style](#layout-style)
 - [Header files](#header-files)
+    - [Header file extension](#header-file-extension)
     - [Include guards](#include-guards)
     - [Using namespaces](#using-namespaces)
     - [Templates](#templates)
@@ -293,15 +294,15 @@ Nevertheless, macros can be a source of bugs because they don't obey the usual s
 Names of files and directories should be all lowercase and include underscores (`_`) to separate words. Examples:
 
 - `my_class.cpp`
-- `my_class.h`
-- `a_directory/my_struct.h`
+- `my_class.hpp`
+- `a_directory/my_struct.hpp`
 
 For files relative to tests, use the following rules:
 
 - For unit tests, use the prefix `ut_`. Example: unit test file related to `my_class` should be named as `ut_my_class.cpp`.
 - For integration tests, use the prefix `it_`. Example: `it_something.cpp`.
 - For system tests, use the prefix `st_`. Example: `st_something.cpp`.
-- For testing doubles (mocks, fakes, stubs, etc.), use a prefix that identifies its type. Example: mock file related to `my_class` should be named as `mock_my_class.h`.
+- For testing doubles (mocks, fakes, stubs, etc.), use a prefix that identifies its type. Example: mock file related to `my_class` should be named as `mock_my_class.hpp`.
 
 ## Comments and documentation
 
@@ -510,16 +511,27 @@ void some_function()
 
 ## Header files
 
+### Header file extension
+
+Prefer using the following extensions for header files:
+
+- `.hpp`: for headers that are C++ only. Using this extension communicates that this header should not be included by a C source file, since it contains code that is only compatible with C++.
+- `.h`: for headers that are compatible with C and C++ or pure C headers. This header can be included by both a C source file and a C++ source file.
+
+This distinction can be particularly useful when working on a project that uses both C and C++ code.
+
+But consistency is more important, so if your project uses something different, you should follow that.
+
 ### Include guards
 
-To avoid multiple inclusion, the header files should have `#define` guards. Moreover, to avoid include guards collision, the guard must be unique. For that purpose, the format of the guard name can be something like `<PROJECT>_<PATH>_<FILE_NAME>_H`:
+To avoid multiple inclusion, the header files should have `#define` guards. Moreover, to avoid include guards collision, the guard must be unique. For that purpose, the format of the guard name can be something like `<PROJECT>_<PATH>_<FILE_NAME>_HPP`:
 
 ```c++
-// File "foo/src/dir/bar.h":
-#ifndef FOO_DIR_BAR_H
-#define FOO_DIR_BAR_H
+// File "foo/src/dir/bar.hpp":
+#ifndef FOO_DIR_BAR_HPP
+#define FOO_DIR_BAR_HPP
 // Declarations...
-#endif // FOO_DIR_BAR_H
+#endif // FOO_DIR_BAR_HPP
 ```
 
 **Note:** some implementations offer vendor extensions like `#pragma once` as alternative to `#define` guards. However, note that this is not standard and is not portable.
@@ -529,7 +541,7 @@ To avoid multiple inclusion, the header files should have `#define` guards. More
 Don't write `using namespace` at global scope in a header file, because it exposes this `using namespace` to all files that include this header file:
 
 ```c++
-// bad.h
+// bad.hpp
 #include <iostream>
 using namespace std; // Don't do this.
 ```
@@ -539,7 +551,7 @@ using namespace std; // Don't do this.
 To separate the declaration and definition of template classes, using `.ipp` files is a recommended practice, as shown in the following example:
 
 ```c++
-// my_class.h
+// my_class.hpp
 
 namespace project_name {
 
@@ -638,7 +650,7 @@ This tool allows you to directly apply a predefined code style, based on styles 
 
 To exemplify how to use clang-format, this guide uses the following:
 
-- Code sample files ([header](./example.h) and [implementation](./example.cpp)) that contain some code that can be formatted using this tool.
+- Code sample files ([header](./example.hpp) and [implementation](./example.cpp)) that contain some code that can be formatted using this tool.
 - A clang-format [configuration file](./.clang-format) that includes the desired style options.
 
 As previously mentioned, clang-format can be integrated in a IDE/editor, like Visual Studio Code. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-format from the Visual Studio Code. Additionally, you can configure to automatically format the code when saving a file (see the [settings](./.vscode/settings.json) file available in this guide as example).
