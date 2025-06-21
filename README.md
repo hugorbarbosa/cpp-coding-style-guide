@@ -38,10 +38,6 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [`auto` usage](#auto-usage)
 - [Aliases](#aliases)
     - [`using` vs `typedef`](#using-vs-typedef)
-- [Tools](#tools)
-    - [Clang-format](#clang-format)
-    - [Clang-tidy](#clang-tidy)
-    - [Doxygen](#doxygen)
 - [License](#license)
 - [References](#references)
 
@@ -96,7 +92,7 @@ However, regardless of the style option you choose, be **consistent**.
 - Type aliases
 - Type template parameters
 
-Type names should use `PascalCase`, i.e., each word should start with a capital letter and no separator (e.g. underscore, `_`) between words:
+Type names should use `PascalCase`, i.e., each word should start with a capital letter and no separator (e.g., underscore, `_`) between words:
 
 ```c++
 class MyClass {
@@ -150,7 +146,7 @@ struct MyStruct {
 };
 ```
 
-When naming variables, it is also common using [`camelCase`][ref-style-camel-case], i.e., each word starts with a capital letter, except the first word, and no separator (e.g. underscore) between words:
+When naming variables, it is also common using [`camelCase`][ref-style-camel-case], i.e., each word starts with a capital letter, except the first word, and no separator (e.g., underscore) between words:
 
 ```c++
 class MyClass {
@@ -335,18 +331,20 @@ Its format must contain the "TODO" text, followed by the issue/bug ID, a name or
 ```c++
 void a_function()
 {
-    // TODO Issue-42: Avoid copies performed here.
-    // ...
+    // TODO Issue-42: Avoid copies.
+    // ...code that performs copies...
 }
 ```
 
 ### Documentation
 
-It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation automatically. For that purpose, document the source code using the format supported by Doxygen (see [Tools](#tools) section).
+It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation in an automatic way. Doxygen is a tool that can be utilized for that purpose, so the source code should be documented using the format supported by this tool, as demonstrated in the examples below.
+
+Please refer to the [C++ project template][ref-cpp-project-template] to know more details about doxygen, and how this tool can be used in a project.
 
 Examples:
 
-- For files, start with the documentation as shown in the following example:
+- For files, start with the documentation described as follows:
     ```c++
     /**
      * @file
@@ -434,7 +432,9 @@ Examples:
 
 ## Formatting
 
-Ensuring that the code always has the desired format is a very difficult and error-prone task. Thus, it is highly recommended to use a tool that automatically checks and formats the code (see [Tools](#tools) section).
+Ensuring that the code always has the desired format is a very difficult and error-prone task. Thus, it is highly recommended to use a tool that automatically checks and formats the code. A tool that is commonly utilized for this purpose is clang-format, which allows to directly apply a predefined code style (e.g., Google, Microsoft, etc) or customize a new one with the desired style options.
+
+Please refer to the [C++ project template][ref-cpp-project-template] to know more details about clang-format, and how this tool can be used in a project.
 
 ### Line length
 
@@ -548,7 +548,7 @@ using namespace std; // Don't do this.
 
 ### Templates
 
-To separate the declaration and definition of template classes, using `.ipp` files is a recommended practice, as shown in the following example:
+To separate the declaration and definition of template classes, the usage of `.ipp` files is a recommended practice, as shown in the following example:
 
 ```c++
 // my_class.hpp
@@ -634,63 +634,6 @@ using Bar = Foo;
 typedef Foo Bar; // But prefer `using` instead.
 ```
 
-## Tools
-
-### Clang-format
-
-Clang-format is a tool that can be used to format C++, C, C#, Java, JavaScript, JSON, Objective-C and Protobuf code. This tool can be utilized in a variety of ways, including as a standalone tool or integrated in a IDE/editor.
-
-Clang-format supports many options which can be found using the `--help` option:
-
-```sh
-$ clang-format --help
-```
-
-This tool allows you to directly apply a predefined code style, based on styles such as Google, Microsoft, among others. This base style can be adjusted to your needs or, if necessary, you can completely customize a style with your desired style options. All style options supported by clang-format can be found in [clang-format style options][ref-tool-clang-format-style-options].
-
-To exemplify how to use clang-format, this guide uses the following:
-
-- Code sample files ([header](./example.hpp) and [implementation](./example.cpp)) that contain some code that can be formatted using this tool.
-- A clang-format [configuration file](./.clang-format) that includes the desired style options.
-
-As previously mentioned, clang-format can be integrated in a IDE/editor, like Visual Studio Code. It is only necessary to install the [C/C++ extension][ref-vscode-cpp-extension], which allows configuring and using clang-format from the Visual Studio Code. Additionally, you can configure to automatically format the code when saving a file (see the [settings](./.vscode/settings.json) file available in this guide as example).
-
-Feel free to use the code sample files to do some experiments and verify that the code is automatically formatted when you save it, keeping it always with the intended style.
-
-Refer to the [clang-format page][ref-tool-clang-format] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
-
-### Clang-tidy
-
-Clang-tidy is a clang-based C++ "linter" tool, that provides an extensible framework for diagnosing and fixing typical programming errors, like interface misuse or bugs, that can be deduced via static analysis. It can be utilized as a standalone tool or integrated in a IDE/editor.
-
-Clang-tidy supports many options which can be found using the `--help` option:
-
-```sh
-$ clang-tidy --help
-```
-
-This tool allows you to specify various check options based on groups through a name prefix, such as `cppcoreguidelines-` that performs checks related to C++ Core Guidelines. All check options supported by clang-tidy can be found in [clang-tidy checks][ref-tool-clang-tidy-checks].
-
-As previously mentioned, clang-tidy can be integrated in a IDE/editor, like Visual Studio Code. The [C/C++ extension][ref-vscode-cpp-extension] needs to be installed for configuring and using clang-tidy from the Visual Studio Code. Additionally, you can configure to automatically analyze the code when saving a file (see the [settings](./.vscode/settings.json) file available in this guide as example).
-
-Refer to the [clang-tidy page][ref-tool-clang-tidy] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
-
-### Doxygen
-
-Doxygen is a documentation generator tool that automates the creation of documentation from source code comments, supporting C++, C, C#, Python, PHP, Java, Objective-C, Fortran, VHDL, Splice, IDL, and Lex code. The documentation can be generated in various output formats, such as HTML and PDF. Moreover, this tool is able to generate graphical representations of class hierarchies and collaboration diagrams, providing a visual overview of the relationships between classes and functions.
-
-Doxygen supports many options which can be found using the `--help` option:
-
-```sh
-$ doxygen --help
-```
-
-The format of the comments needs to follow the one presented in the [Documentation](#documentation) section.
-
-This tool utilizes a configuration file (Doxyfile) that permits users to customize the documentation generation process, like the input files and the output format.
-
-Refer to the [Doxygen page][ref-tool-doxygen] for more details regarding this tool. To see this tool being used in a project, consult the [C++ project template][ref-cpp-project-template] as example.
-
 ## License
 
 Licensed under the [MIT license](./LICENSE).
@@ -707,12 +650,6 @@ Licensed under the [MIT license](./LICENSE).
 - [PEP (Python Enhancement Proposal) 8: Style Guide for Python Code][ref-python-pep8]
 - [Snake case][ref-style-snake-case]
 - [Camel case][ref-style-camel-case]
-- [Clang-format][ref-tool-clang-format]
-- [Clang-format style options][ref-tool-clang-format-style-options]
-- [Clang-tidy][ref-tool-clang-tidy]
-- [Clang-tidy checks][ref-tool-clang-tidy-checks]
-- [Doxygen][ref-tool-doxygen]
-- [Visual Studio Code: C/C++ extension][ref-vscode-cpp-extension]
 - [C++ project template][ref-cpp-project-template]
 
 [ref-cpp-core-guidelines]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md "C++ Core Guidelines"
@@ -725,10 +662,4 @@ Licensed under the [MIT license](./LICENSE).
 [ref-python-pep8]: https://peps.python.org/pep-0008/ "PEP 8: Style Guide for Python Code"
 [ref-style-snake-case]: https://en.wikipedia.org/wiki/Snake_case "Snake case"
 [ref-style-camel-case]: https://en.wikipedia.org/wiki/Camel_case "Camel case"
-[ref-tool-clang-format]: https://clang.llvm.org/docs/ClangFormat.html "Clang-format"
-[ref-tool-clang-format-style-options]: https://clang.llvm.org/docs/ClangFormatStyleOptions.html "Clang-format style options"
-[ref-tool-clang-tidy]: https://clang.llvm.org/extra/clang-tidy/ "Clang-tidy"
-[ref-tool-clang-tidy-checks]: https://clang.llvm.org/extra/clang-tidy/checks/list.html "Clang-tidy checks"
-[ref-tool-doxygen]: https://www.doxygen.nl/ "Doxygen"
-[ref-vscode-cpp-extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools "Visual Studio Code: C/C++ extension"
 [ref-cpp-project-template]: https://github.com/hugorbarbosa/cpp-project-template "C++ project template"
