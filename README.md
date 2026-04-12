@@ -116,6 +116,8 @@ using integer_container = std::vector<int>;
 typedef std::vector<int> integer_container;
 ```
 
+#### Also commonly used
+
 Another option is using `PascalCase` not only for the template parameters but for all types.
 
 Yet another possibility is to utilize upper case only in the first letter and keep the underscore to separate words (e.g., `My_type`), as mentioned in the [C++ Core Guidelines][ref-cpp-core-guidelines], to better differentiate user-defined types from Standard Library types.
@@ -151,6 +153,8 @@ struct my_struct {
 };
 ```
 
+#### Also commonly used
+
 When naming variables, it is also common using [`camelCase`][ref-style-camel-case], i.e., each word starts with a capital letter, except the first word, and no separator (e.g., underscore) between words:
 
 ```c++
@@ -162,7 +166,7 @@ private:
 };
 ```
 
-An aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. For example, it is common to add the suffix `_` or use prefixes like `m_` or simply `m` to name class private data members:
+Additionally, an aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. For example, it is common to add the suffix `_` or use prefixes like `m_` or simply `m` to name class private data members:
 
 ```c++
 class my_class {
@@ -187,7 +191,9 @@ constexpr int my_constexpr_var{42};
 const int my_const_var{43};
 ```
 
-Similarly, it is usually seen the usage of a prefix when naming constants in some C++ projects, such as `c` or `k`:
+#### Also commonly used
+
+It is also common to use `camelCase` on constants when this style is applied for variables. Similarly, some C++ projects use a prefix when naming constants, such as `c` or `k`:
 
 ```c++
 // Using prefix `c` and snake_case.
@@ -210,6 +216,8 @@ public:
     void my_member_function(const int first_parameter);
 };
 ```
+
+#### Also commonly used
 
 Another possibility is using `camelCase` or `PascalCase` for naming functions:
 
@@ -236,6 +244,8 @@ enum class my_enum {
     second_enumerator,
 };
 ```
+
+#### Also commonly used
 
 Similarly, `camelCase` or `PascalCase` might also be used to name enumerators:
 
@@ -337,12 +347,12 @@ Comment using either the `//` or `/* */` syntax, as long as consistency is maint
 
 A TODO comment should be used when something needs to be done or changed in the future. For example, some feature or functionality that should be implemented in the future that currently is missing, or some solution that must be changed/improved because it is now considered as a temporary solution.
 
-Its format must contain the "TODO" text, followed by the issue/bug ID, a name or other identifier that contains the problem referenced by the TODO:
+Its format must contain the "TODO" text, followed by the issue/bug ID, a name or other identifier that contains the problem referenced by the TODO, as shown below:
 
 ```c++
 void my_function()
 {
-    // TODO Issue-42: Avoid copies.
+    // TODO(Issue-42): Avoid copies.
     // ...code that performs copies...
 }
 ```
