@@ -138,14 +138,17 @@ Choose just one style and be consistent within a project.
 
 ### Variables
 
-Variables (including function parameters) and data members of classes and structs are in `snake_case`, with the usage of a trailing underscore when naming private class data members:
+Variables (including function parameters) and data members of classes and structs are in `snake_case`. Data members of classes (but not structs) additionally have a trailing underscore, with the exception of constant class members, which should follow the format for [naming constants](#constants):
 
 ```c++
 int my_variable{0};
 
 class MyClass {
+public:
+    // Constant class members don't have a trailing underscore.
+    static const int my_constant{42};
 private:
-    // Only private data members have a trailing underscore.
+    // Only class data members have a trailing underscore.
     int my_data_member_;
 };
 
@@ -166,7 +169,7 @@ private:
 };
 ```
 
-Additionally, an aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. Besides a trailing underscore, it is also common to add prefixes like `m_` or simply `m` to name private class data members:
+Additionally, an aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. Besides a trailing underscore, it is also common to add prefixes like `m_` or simply `m` to name class data members:
 
 ```c++
 class MyClass {
