@@ -76,7 +76,7 @@ This is a non-closed document and may evolve and improve whenever necessary.
 
 ## Naming conventions
 
-This section outlines conventions for naming variables, functions, and other entities. In some cases, multiple options are provided to introduce the reader to different styles commonly seen in C++ projects. The first option listed for each topic is the format I personally prefer, which is usually aligned with the conventions used by the C++ Standard Library. However, regardless of the style option you choose, be **consistent**.
+This section outlines conventions for naming variables, functions, and other entities. In some cases, multiple options are provided to introduce the reader to different styles commonly seen in C++ projects, being the first option listed for each topic the one I personally prefer. However, regardless of the style option you choose, be **consistent**.
 
 Manually ensuring that the code always has the desired naming conventions is a very error-prone task. Therefore, it is recommended to use a tool that automatically verifies the naming conventions from the code. A tool that is commonly utilized for this purpose is clang-tidy, through the respective identifier naming check. Please refer to the [C++ project template][ref-cpp-project-template] to know more details about clang-tidy, and how this tool can be used in a project.
 
@@ -92,39 +92,39 @@ Manually ensuring that the code always has the desired naming conventions is a v
 - Type aliases
 - Type template parameters
 
-All type names should use [`snake_case`][ref-style-snake-case], i.e., lowercase and with underscores (`_`) to separate words, **except** the type template parameters that should use `PascalCase`, i.e., each word starts with a capital letter and no separator (e.g., underscore) between words, as the C++ Standard Library usually applies:
+Type names should use `PascalCase`, i.e., each word should start with a capital letter and no separator (e.g., underscore) between words:
 
 ```c++
-class my_class {
+class MyClass {
     // ...
 };
 
 template<typename MyTemplateParameter>
-class my_template_class {
+class MyClassTemplate {
     // ...
 };
 
-struct my_struct {
+struct MyStruct {
     // ...
 };
 
-enum class my_enum {
+enum class MyEnum {
     // ...
 };
 
-using integer_container = std::vector<int>;
-typedef std::vector<int> integer_container;
+using IntegerContainer = std::vector<int>;
+typedef std::vector<int> IntegerContainer;
 ```
 
 #### Also commonly used
 
-Another option is using `PascalCase` not only for the template parameters but for all types.
+Another option is using [`snake_case`][ref-style-snake-case], i.e., lowercase and with underscores to separate words, as the C++ Standard Library usually applies.
 
 Yet another possibility is to utilize upper case only in the first letter and keep the underscore to separate words (e.g., `My_type`), as mentioned in the [C++ Core Guidelines][ref-cpp-core-guidelines], to better differentiate user-defined types from Standard Library types.
 
 ```c++
-// Using PascalCase.
-class MyClass {
+// Using snake_case.
+class my_class {
     // ...
 };
 
@@ -138,27 +138,27 @@ Choose just one style and be consistent within a project.
 
 ### Variables
 
-Variables (including function parameters) and data members of classes and structs are in `snake_case`:
+Variables (including function parameters) and data members of classes and structs are in `snake_case`, with the usage of a trailing underscore when naming private class data members:
 
 ```c++
 int my_variable{0};
 
-class my_class {
+class MyClass {
 private:
-    int my_data_member;
+    // Only private data members have a trailing underscore.
+    int my_data_member_;
 };
 
-struct my_struct {
+struct MyStruct {
     int my_data_member;
 };
 ```
 
 #### Also commonly used
 
-When naming variables, it is also common using [`camelCase`][ref-style-camel-case], i.e., each word starts with a capital letter, except the first word, and no separator (e.g., underscore) between words:
+When naming variables, it is also common using [`camelCase`][ref-style-camel-case], i.e., each word starts with a capital letter, except the first word, and no separator between words:
 
 ```c++
-// Using PascalCase.
 class MyClass {
 private:
     // Using camelCase.
@@ -166,13 +166,11 @@ private:
 };
 ```
 
-Additionally, an aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. For example, it is common to add the suffix `_` or use prefixes like `m_` or simply `m` to name class private data members:
+Additionally, an aspect commonly seen in C++ projects is the use of prefixes and suffixes in variable names. Besides a trailing underscore, it is also common to add prefixes like `m_` or simply `m` to name private class data members:
 
 ```c++
-class my_class {
+class MyClass {
 private:
-    // Using suffix "_" and snake_case.
-    int my_data_member_;
     // Using prefix "m_" and snake_case.
     int m_my_data_member;
     // Using prefix "m" and camelCase.
@@ -211,7 +209,7 @@ Function names should use `snake_case`:
 ```c++
 void my_free_function(const int first_parameter);
 
-class my_class {
+class MyClass {
 public:
     void my_member_function(const int first_parameter);
 };
@@ -225,7 +223,7 @@ Another possibility is using `camelCase` or `PascalCase` for naming functions:
 // Using camelCase.
 void myFreeFunction(const int first_parameter);
 
-class my_class {
+class MyClass {
 public:
     // Using PascalCase.
     void MyMemberFunction(const int first_parameter);
@@ -239,7 +237,7 @@ Choose just one style and be consistent within a project.
 Enumerators (for both scoped and unscoped enums) should use `snake_case`:
 
 ```c++
-enum class my_enum {
+enum class MyEnum {
     first_enumerator = 0,
     second_enumerator,
 };
@@ -250,13 +248,13 @@ enum class my_enum {
 Similarly, `camelCase` or `PascalCase` might also be used to name enumerators:
 
 ```c++
-enum class my_enum {
+enum class MyEnum {
     // Using camelCase.
     firstEnumerator,
     secondEnumerator,
 };
 
-enum class my_enum {
+enum class MyEnum {
     // Using PascalCase.
     FirstEnumerator,
     SecondEnumerator,
@@ -271,7 +269,7 @@ Choose just one style and be consistent within a project.
 #define START 1
 #define STOP 2
 
-enum class my_enum {
+enum class MyEnum {
     // Don't use ALL_CAPS.
     START,
     STOP
@@ -386,7 +384,7 @@ Examples:
     /**
      * @brief My class.
      */
-    class my_class {
+    class MyClass {
     public:
         /**
          * @brief Set the data member value.
@@ -400,13 +398,13 @@ Examples:
         bool set_data(const int new_value);
     private:
         /// Data member example.
-        int data_member;
+        int data_member_;
     };
 
     /**
      * @brief My struct.
      */
-    struct my_struct {
+    struct MyStruct {
         /// Data member example.
         int data_member;
     };
@@ -428,10 +426,10 @@ Examples:
      * @tparam T Data member type.
      */
     template<typename T>
-    class my_class {
+    class MyClass {
     private:
         /// Data member example.
-        T data_member;
+        T data_member_;
     };
     ```
 - For enums:
@@ -439,7 +437,7 @@ Examples:
     /**
      * @brief Possible operation results.
      */
-    enum class operation_result {
+    enum class OperationResult {
         /// Operation has succeeded.
         success,
         /// Operation has failed due to out-of-memory.
@@ -478,7 +476,7 @@ namespace some_namespace { // Brace in the same line for namespaces.
 
 // The declarations inside of the namespace should not be indented.
 
-class b : public a { // Brace in the same line for classes/structs/enums.
+class B : public A { // Brace in the same line for classes/structs/enums.
 public: // No indentation.
     // ...indentation of the code inside...
 };
@@ -575,7 +573,7 @@ To separate the declaration and definition of template classes, the usage of `.i
 namespace project_name {
 
 template<typename T>
-class my_class {
+class MyClass {
     void my_member_function();
     // ...code...
 };
@@ -589,7 +587,7 @@ class my_class {
 namespace project_name {
 
 template<typename T>
-void my_class<T>::my_member_function()
+void MyClass<T>::my_member_function()
 {
     // ...code...
 }
@@ -608,7 +606,7 @@ Thus, the choice between using `.ipp` file or keeping everything in the header f
 If any member is non-public, use `class` rather than `struct`:
 
 ```c++
-struct example {
+struct Example {
     int x;
     int y;
 private:
@@ -649,8 +647,8 @@ Do not use `auto` only to avoid the inconvenience of writing an explicit type. U
 Prefer `using` in C++ code instead of `typedef`:
 
 ```c++
-using bar = foo;
-typedef foo bar; // But prefer `using` instead.
+using Bar = Foo;
+typedef Foo Bar; // But prefer `using` instead.
 ```
 
 ## License
