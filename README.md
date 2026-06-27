@@ -78,7 +78,7 @@ This is a non-closed document and may evolve and improve whenever necessary.
 
 This section outlines conventions for naming variables, functions, and other entities. In some cases, multiple options are provided to introduce the reader to different styles commonly seen in C++ projects, being the first option listed for each topic the one I personally prefer. However, regardless of the style option you choose, be **consistent**.
 
-Manually ensuring that the code always has the desired naming conventions is a very error-prone task. Therefore, it is recommended to use a tool that automatically verifies the naming conventions from the code. A tool that is commonly utilized for this purpose is clang-tidy, through the respective identifier naming check. Please refer to the [C++ project template][ref-cpp-project-template] to know more details about clang-tidy, and how this tool can be used in a project.
+Manually ensuring that the code always has the desired naming conventions is a very error-prone task. Therefore, it is recommended to use a tool that automatically verifies the naming conventions from the code. A tool that is commonly utilized for this purpose is clang-tidy, through the respective identifier naming check. Please refer to the [C++ development tooling][ref-cpp-development-tooling] guide to know more details about clang-tidy, and to the [C++ project template][ref-cpp-project-template] to see how this tool can be used in a project.
 
 **Note:** identifier names that contain double underscores `__` or that start with an underscore followed by a capital letter (e.g., `_Throws`) must be avoided. Such identifiers are reserved for the C++ implementation.
 
@@ -360,7 +360,7 @@ void my_function()
 
 ### Documentation
 
-It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation in an automatic way. Doxygen is a tool that can be utilized for that purpose, so the source code should be documented using the format supported by this tool, as demonstrated in the examples below. Please refer to the [C++ project template][ref-cpp-project-template] to know more details about doxygen, and how this tool can be used in a project.
+It is very useful to document the source code in a format that is understandable by a tool, allowing the verification and parsing of the documentation in an automatic way. Doxygen is a tool that can be utilized for that purpose, so the source code should be documented using the format supported by this tool, as demonstrated in the examples below. Please refer to the [C++ development tooling][ref-cpp-development-tooling] guide to know more details about doxygen, and to the [C++ project template][ref-cpp-project-template] to see how this tool can be used in a project.
 
 Examples:
 
@@ -452,7 +452,7 @@ Examples:
 
 ## Formatting
 
-Ensuring that the code always has the desired format is a very difficult and error-prone task. Thus, it is highly recommended to use a tool that automatically checks and formats the code. A tool that is commonly utilized for this purpose is clang-format, which allows to directly apply a predefined code style (e.g., Google, Microsoft, etc) or customize a new one with the desired style options. Please refer to the [C++ project template][ref-cpp-project-template] to know more details about clang-format, and how this tool can be used in a project.
+Ensuring that the code always has the desired format is a very difficult and error-prone task. Thus, it is highly recommended to use a tool that automatically checks and formats the code. A tool that is commonly utilized for this purpose is clang-format, which allows to directly apply a predefined code style (e.g., Google, Microsoft, etc) or customize a new one with the desired style options. Please refer to the [C++ development tooling][ref-cpp-development-tooling] guide to know more details about clang-format, and to the [C++ project template][ref-cpp-project-template] to see how this tool can be used in a project.
 
 ### Line length
 
@@ -671,6 +671,7 @@ Licensed under the [MIT license](./LICENSE).
 - [Snake case][ref-style-snake-case]
 - [Camel case][ref-style-camel-case]
 - [C++ project template][ref-cpp-project-template]
+- [C++ development tooling][ref-cpp-development-tooling]
 
 [ref-cpp-core-guidelines]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md "C++ Core Guidelines"
 [ref-cpp-bs-tech-faq]: https://www.stroustrup.com/bs_faq2.html "Bjarne Stroustrup: C++ Style and Technique FAQ"
@@ -683,3 +684,4 @@ Licensed under the [MIT license](./LICENSE).
 [ref-style-snake-case]: https://en.wikipedia.org/wiki/Snake_case "Snake case"
 [ref-style-camel-case]: https://en.wikipedia.org/wiki/Camel_case "Camel case"
 [ref-cpp-project-template]: https://github.com/hugorbarbosa/cpp-project-template "C++ project template"
+[ref-cpp-development-tooling]: https://github.com/hugorbarbosa/cpp-learning/blob/main/topics/development_tooling/cpp_development_tooling.md "C++ development tooling"
