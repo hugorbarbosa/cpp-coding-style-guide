@@ -26,6 +26,10 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [Spaces vs tabs](#spaces-vs-tabs)
     - [Layout style](#layout-style)
 - [Best practices](#best-practices)
+    - [Initializer syntax](#initializer-syntax)
+    - [Prefer `nullptr` to 0 and NULL](#prefer-nullptr-to-0-and-null)
+    - [Scoped `enum`s](#scoped-enums)
+    - [Default case in `switch` statements](#default-case-in-switch-statements)
     - [Header file extension](#header-file-extension)
     - [Include guards](#include-guards)
     - [Using namespaces](#using-namespaces)
@@ -33,7 +37,7 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [Declaration order](#declaration-order)
     - [Templates declaration](#templates-declaration)
     - [`auto` usage](#auto-usage)
-    - [`using` vs `typedef`](#using-vs-typedef)
+    - [Prefer `using` to `typedef`](#prefer-using-to-typedef)
     - [Comments usage](#comments-usage)
 - [License](#license)
 - [References](#references)
@@ -532,6 +536,129 @@ The focus of this guide is *not* on the C++ best practices and how to use it eff
 
 Nevertheless, the following sections describe some recommended best practices.
 
+### Initializer syntax
+
+Prefer using `{}` for initialization, because the rules for `{}` are simpler, more general, less ambiguous, and safer than for other forms of initialization.
+
+Use `=` only when no narrowing conversions can happen, and avoid `()` initialization since it allows parsing ambiguities.
+
+However, note that for containers, there is a tradition of using `{}` for a list of elements and `()` for sizes:
+
+```c++
+std::vector<int> v1(10);   // Vector of 10 elements with the default value 0.
+std::vector<int> v2{10};   // Vector of 1 element with the value 10.
+std::vector<int> v3(1, 2); // Vector of 1 element with the value 2.
+std::vector<int> v4{1, 2}; // Vector of 2 elements with the values 1 and 2.
+```
+
+In addition, it is relevant to mention that the initialization of a variable declared using `auto` with a single value had surprising results until C++17. Therefore, consider using `=` for the initialization of `auto` variables before C++17, and always use `{}` from C++17 onward:
+
+```c++
+// C++14: Instead of being "int", the type may be deduced to "std::initializer_list<int>" (not clearly defined in the Standard, depends on the implementer).
+// C++17: Type is deduced to "int" (clearly defined in the Standard).
+auto x{42};
+```
+
+### Prefer `nullptr` to 0 and NULL
+
+Prefer `nullptr` instead of `0` or `NULL` in C++ code. C++'s primary policy is that the literal 0 is an `int`, not a pointer, and generally speaking, the same is true for the `NULL` case. So, use always `nullptr` for pointers to be explicit about the type and for better readability.
+
+### Scoped `enum`s
+
+Prefer scoped `enum`s to unscoped ("plain") `enum`s because the enumerator names in an `enum class` are scoped to the `enum` itself. In contrast, the enumerator names of a "plain" (unscoped) `enum` are introduced into the enclosing scope.
+
+Additionally, the unscoped `enum`s convert to int too readily, and might lead to bugs more easily.
+
+### Default case in `switch` statements
+
+Avoid `default` in `switch` statements since it might introduce bugs.
+
+Consider this example:
+
+```c++
+enum class Result {
+    success,
+    out_of_memory
+};
+
+std::string_view get_result(const Result result)
+{
+    switch (result) {
+    case Result::success:
+        return "success";
+    case Result::out_of_memory:
+        return "out_of_memory";
+    }
+}
+```
+
+If all compiler warnings are enabled, it is possible to get an warning mentioning that "not all code paths return a value". It makes sense since we can call the function like `get_result(static_cast<Result>(42))`, and for this case, we face Undefined Behavior of not returning a value from the function.
+
+We may think about adding the `default` case to fix the warning:
+
+```c++
+std::string_view get_result(const Result& result)
+{
+    switch (result) {
+    case Result::success:
+        return "success";
+    case Result::out_of_memory:
+        return "out_of_memory";
+    default:
+        return "unknown";
+    }
+}
+```
+
+But if a new enumerator is introduced, this function doesn't specifically handle this new case and no compiler warning is emitted, returning an wrong string for this new enumerator:
+
+```c++
+enum class Result {
+    success,
+    out_of_memory,
+    busy // New enumerator.
+};
+
+std::string_view get_result(const Result& result)
+{
+    switch (result) {
+    case Result::success:
+        return "success";
+    case Result::out_of_memory:
+        return "out_of_memory";
+    default: // New enumerator is wrongly handled by the default case.
+        return "unknown";
+    }
+}
+```
+
+So, the `default` case shall be avoided in order to use the compiler to catch this needed change. The following is the recommended way for this example:
+
+```c++
+enum class Result {
+    success,
+    out_of_memory,
+    busy
+};
+
+std::string_view get_result(const Result& result)
+{
+    switch (result) {
+    case Result::success:
+        return "success";
+    case Result::out_of_memory:
+        return "out_of_memory";
+    // Compiler warning about unhandled enumerator is emitted now.
+    /*
+    case Result::busy:
+        return "busy";
+    */
+    }
+
+    return "unknown";
+}
+```
+
 ### Header file extension
 
 Prefer using the following extensions for header files:
@@ -642,7 +769,7 @@ Thus, the choice between using `.ipp` file or keeping everything in the header f
 
 Do not use `auto` only to avoid the inconvenience of writing an explicit type. Use `auto` in case if it makes the code clearer to readers or if it makes the code safer.
 
-### `using` vs `typedef`
+### Prefer `using` to `typedef`
 
 Prefer `using` instead of `typedef` in C++ code:
 
