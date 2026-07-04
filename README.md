@@ -18,7 +18,6 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [Macros](#macros)
     - [Files and directories](#files-and-directories)
 - [Comments and documentation](#comments-and-documentation)
-    - [Comments usage](#comments-usage)
     - [Comment style](#comment-style)
     - [TODO comments](#todo-comments)
     - [Documentation](#documentation)
@@ -26,18 +25,16 @@ This project presents some C++ coding styles that are often used in C++ projects
     - [Line length](#line-length)
     - [Spaces vs tabs](#spaces-vs-tabs)
     - [Layout style](#layout-style)
-- [Header files](#header-files)
+- [Best practices](#best-practices)
     - [Header file extension](#header-file-extension)
     - [Include guards](#include-guards)
     - [Using namespaces](#using-namespaces)
-    - [Templates](#templates)
-- [Classes and structs](#classes-and-structs)
-    - [Classes vs structs](#classes-vs-structs)
+    - [Classes vs Structs](#classes-vs-structs)
     - [Declaration order](#declaration-order)
-- [Type deduction](#type-deduction)
+    - [Templates declaration](#templates-declaration)
     - [`auto` usage](#auto-usage)
-- [Aliases](#aliases)
     - [`using` vs `typedef`](#using-vs-typedef)
+    - [Comments usage](#comments-usage)
 - [License](#license)
 - [References](#references)
 
@@ -66,7 +63,7 @@ There's no "official" coding style guide for C++, as we have for [Python][ref-py
 
 ### My C++ coding style guide
 
-This document describes my personal C++ coding style guide, reflecting my preferences and practices. It is not meant to be exhaustive and its focus is *not* on how to use C++ effectively, for that I highly recommend exploring the [C++ Core Guidelines][ref-cpp-core-guidelines], which is an excellent resource for mastering modern C++ practices and writing clean and efficient code. Instead, this guide highlights some conventions I follow in my C++ projects regarding coding layout style, naming conventions, indentation, etc.
+This document describes my personal C++ coding style guide, reflecting my preferences and practices. It is not meant to be exhaustive and its focus is *not* on how to use C++ effectively. Instead, this guide highlights some conventions I follow in my C++ projects regarding coding layout style, naming conventions, indentation, etc. Nevertheless, some best practices are included as well in this guide as a reference.
 
 Please note that this coding style guide may not be suitable for every project and should be adapted as needed to meet specific project requirements. It just contains my preferences and conventions that I try to follow in my personal projects and in projects without any established coding standard/style.
 
@@ -322,10 +319,6 @@ For files relative to tests, use the following rules:
 
 ## Comments and documentation
 
-### Comments usage
-
-Comments are important to state intent more clearly to the reader. It should contain details to help understanding some code, but don't comment what can be easily extracted from the code. While comments are very important, the best code is self-documenting.
-
 ### Comment style
 
 Comment using either the `//` or `/* */` syntax, as long as consistency is maintained:
@@ -527,7 +520,17 @@ void my_function()
 
 **Note:** use always braces as shown in the example for `if`s, `for`s, `while`s, etc., to avoid eventual bugs if more code is added later that should be executed inside of the condition/loop scope.
 
-## Header files
+## Best practices
+
+The focus of this guide is *not* on the C++ best practices and how to use it effectively, for that I highly recommend exploring C++ books and other material about that topic, like the following ones, which are excellent resources for mastering modern C++ practices and writing clean and efficient code:
+
+- [C++ Core Guidelines][ref-cpp-core-guidelines].
+- *Effective Modern C++: 42 Specific Ways to Improve Your Use of C++11 and C++14* (Scott Meyers).
+- *C++ Best Practices: 45ish Simple Rules with Specific Action Items for Better C++* (Jason Turner).
+- *Clean Code: A Handbook of Agile Software Craftsmanship* (Robert C. Martin).
+- *The C++ Programming Language* (Bjarne Stroustrup).
+
+Nevertheless, the following sections describe some recommended best practices.
 
 ### Header file extension
 
@@ -566,7 +569,40 @@ Don't write `using namespace` at global scope in a header file, because it expos
 using namespace std; // Don't do this.
 ```
 
-### Templates
+### Classes vs Structs
+
+If any member is non-public, use `class` rather than `struct`:
+
+```c++
+struct Example {
+    int x;
+    int y;
+private:
+    int z; // Private member: this struct should be declared as class instead.
+};
+```
+
+### Declaration order
+
+Use the following order when declaring a class:
+
+- Types and type aliases:
+    - Nested structs and classes
+    - Enums
+    - Aliases (`using`, `typedef`)
+- Static constants
+- Factory functions
+- Constructors, assignment operators and destructor
+- Member functions (static and non-static member functions, and friend functions)
+- Data members (static and non-static)
+
+Regarding access control, the following order should be used (omit sections in case they are empty):
+
+- `public`
+- `protected`
+- `private`
+
+### Templates declaration
 
 To separate the declaration and definition of template classes, the usage of `.ipp` files is a recommended practice, as shown in the following example:
 
@@ -602,57 +638,22 @@ Using a `.ipp` file has some benefits, like separation of concerns, maintainabil
 
 Thus, the choice between using `.ipp` file or keeping everything in the header file depends largely on the size and complexity of the code and the project's needs. For more maintainable and scalable codebases, separating template definitions into `.ipp` files is generally a good practice.
 
-## Classes and structs
-
-### Classes vs structs
-
-If any member is non-public, use `class` rather than `struct`:
-
-```c++
-struct Example {
-    int x;
-    int y;
-private:
-    int z; // Private member: this struct should be declared as class instead.
-};
-```
-
-### Declaration order
-
-Use the following order when declaring a class:
-
-- Types and type aliases:
-    - Nested structs and classes
-    - Enums
-    - Aliases (`using`, `typedef`)
-- Static constants
-- Factory functions
-- Constructors, assignment operators and destructor
-- Member functions (static and non-static member functions, and friend functions)
-- Data members (static and non-static)
-
-Regarding access control, the following order should be used (omit sections in case they are empty):
-
-- `public`
-- `protected`
-- `private`
-
-## Type deduction
-
 ### `auto` usage
 
 Do not use `auto` only to avoid the inconvenience of writing an explicit type. Use `auto` in case if it makes the code clearer to readers or if it makes the code safer.
 
-## Aliases
-
 ### `using` vs `typedef`
 
-Prefer `using` in C++ code instead of `typedef`:
+Prefer `using` instead of `typedef` in C++ code:
 
 ```c++
 using Bar = Foo;
 typedef Foo Bar; // But prefer `using` instead.
 ```
+
+### Comments usage
+
+Comments are important to state intent more clearly to the reader. It should contain details to help understanding some code, but don't comment what can be easily extracted from the code. While comments are very important, the best code is self-documenting.
 
 ## License
 
